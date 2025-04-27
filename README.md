@@ -32,12 +32,18 @@ Ensure you have [Node.js](https://nodejs.org/) installed on your machine. This p
     ```bash
     npm install
     ```
-4. Add your Firebase API key:
-    - Create a `.env` file in the root directory of the project.
-    - Add your Firebase API key as follows:
-    ```env
-    REACT_APP_FIREBASE_API_KEY=your_api_key_here
-    ```
+4. **Set up Firebase**:
+   - Create a Firebase project on the [Firebase Console](https://console.firebase.google.com/).
+   - Enable Firebase Authentication (email/password or other methods).
+   - Add Firebase credentials to your environment variables by creating a `.env` file. Include your API key and other config values:
+     ```env
+     VITE_FIREBASE_API_KEY=your-api-key
+     VITE_FIREBASE_AUTH_DOMAIN=your-auth-domain
+     VITE_FIREBASE_PROJECT_ID=your-project-id
+     VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
+     VITE_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
+     VITE_FIREBASE_APP_ID=your-app-id
+     ```
 5. Start the app locally:
     ```bash
     npm run dev
