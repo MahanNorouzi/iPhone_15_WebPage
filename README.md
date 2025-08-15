@@ -7,7 +7,6 @@ Welcome to the **Apple Clone** project! 🚀 I recreated the sleek, modern Apple
 - **Responsive Design**: Looks amazing on any screen size 📱💻
 - **GSAP Animations**: Smooth, dynamic animations that bring the site to life 🎬
 - **3D Models**: Interactive elements powered by Three.js 🌍
-- **Authentication**: Firebase + reCAPTCHA for secure login 🔐
 - **Tech Stack**:
   - **Frontend**: React.js
   - **Tools**: Firebase, Three.js, GSAP
@@ -34,18 +33,6 @@ Ensure you have [Node.js](https://nodejs.org/) installed on your machine. This p
    ```bash
    npm install
    ```
-4. **Set up Firebase**:
-   - Create a Firebase project on the [Firebase Console](https://console.firebase.google.com/).
-   - Enable Firebase Authentication (email/password or other methods).
-   - Add Firebase credentials to your environment variables by creating a `.env` file. Include your API key and other config values:
-     ```env
-     VITE_FIREBASE_API_KEY=your-api-key
-     VITE_FIREBASE_AUTH_DOMAIN=your-auth-domain
-     VITE_FIREBASE_PROJECT_ID=your-project-id
-     VITE_FIREBASE_STORAGE_BUCKET=your-storage-bucket
-     VITE_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
-     VITE_FIREBASE_APP_ID=your-app-id
-     ```
 5. Start the app locally:
    ```bash
    npm run dev
