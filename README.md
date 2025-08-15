@@ -19,6 +19,17 @@ I built this clone to challenge myself, improve my skills, and push my creativit
 
 Ensure you have [Node.js](https://nodejs.org/) installed on your machine. This project uses npm as its package manager..
 
+
+
+## Live Demo
+
+You can access the live demo of clone here:
+[clone Live Demo](https://i-phone-15-web-page.vercel.app/)
+
+> **Note**:  The live demo is still in development, and there are known bugs that will be fixed in future updates. Also, make sure that Firebase grants access to your client.
+
+---
+
 ## Installation
 
 1. Clone this repository:
