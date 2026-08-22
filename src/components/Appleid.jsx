@@ -1,9 +1,10 @@
 import { Navbar } from "./Navbar";
-import BlackII6KAppleID from "../../public/assets/images/BlackII6KAppleID.png";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import Footer from "./Footer";
 import { useTranslation } from "react-i18next";
+
+const BlackII6KAppleID = "/assets/images/BlackII6KAppleID.png";
 
 export const AppleID = () => {
   const { t } = useTranslation();

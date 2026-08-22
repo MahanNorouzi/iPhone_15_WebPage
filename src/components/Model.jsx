@@ -25,26 +25,41 @@ const Model = () => {
   const small = useRef(new THREE.Group());
   const large = useRef(new THREE.Group());
 
-  const [smallRotation, setSmallRotation] = useState(0);
-  const [largeRotation, setLargeRotation] = useState(0);
+  const smallRotation = useRef(0);
+  const largeRotation = useRef(0);
 
-  const tl = gsap.timeline();
+  const timeline = useRef(gsap.timeline());
 
   useEffect(() => {
+    timeline.current.clear();
+
     if (size === "large") {
-      animateWithGsapTimeline(tl, small, smallRotation, "#view1", "#view2", {
-        transform: "translateX(-100%)",
-        duration: 2,
-      });
+      animateWithGsapTimeline(
+        timeline.current,
+        small,
+        smallRotation.current,
+        "#view1",
+        "#view2",
+        {
+          transform: "translateX(-100%)",
+          duration: 2,
+        },
+      );
     }
 
     if (size === "small") {
-      animateWithGsapTimeline(tl, large, largeRotation, "#view2", "#view1", {
-        transform: "translateX(0)",
-        duration: 2,
-      });
+      animateWithGsapTimeline(
+        timeline.current,
+        large,
+        largeRotation.current,
+        "#view2",
+        "#view1",
+        {
+          transform: "translateX(0)",
+          duration: 2,
+        },
+      );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [size]);
 
   useGSAP(() => {
@@ -73,7 +88,9 @@ const Model = () => {
               groupRef={small}
               gsapType="view1"
               controlRef={cameraControlSmall}
-              setRotationState={setSmallRotation}
+              setRotationState={(rotation) => {
+                smallRotation.current = rotation;
+              }}
               item={model}
               size={size}
             />
@@ -83,7 +100,9 @@ const Model = () => {
               groupRef={large}
               gsapType="view2"
               controlRef={cameraControlLarge}
-              setRotationState={setLargeRotation}
+              setRotationState={(rotation) => {
+                largeRotation.current = rotation;
+              }}
               item={model}
               size={size}
             />
@@ -109,20 +128,25 @@ const Model = () => {
 
             <div className="flex-center">
               <ul className="color-container">
-                {models.map((item, i) => (
-                  <li
-                    key={i}
-                    className="w-6 h-6 rounded-full mx-2 cursor-pointer"
-                    style={{ backgroundColor: item.color[0] }}
-                    onClick={() => setModel(item)}
-                  />
+                {models.map((item) => (
+                  <li key={item.id} className="mx-2">
+                    <button
+                      type="button"
+                      aria-label={`Select ${item.title}`}
+                      className="w-6 h-6 rounded-full cursor-pointer"
+                      style={{ backgroundColor: item.color[0] }}
+                      onClick={() => setModel(item)}
+                    />
+                  </li>
                 ))}
               </ul>
 
-              <button className="size-btn-container">
+              <div className="size-btn-container">
                 {sizes.map(({ label, value }) => (
-                  <span
+                  <button
                     key={label}
+                    type="button"
+                    aria-pressed={size === value}
                     className="size-btn"
                     style={{
                       backgroundColor: size === value ? "white" : "transparent",
@@ -131,9 +155,9 @@ const Model = () => {
                     onClick={() => setSize(value)}
                   >
                     {label}
-                  </span>
+                  </button>
                 ))}
-              </button>
+              </div>
             </div>
           </div>
         </div>

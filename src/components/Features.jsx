@@ -9,7 +9,7 @@ const Features = () => {
     gsap.to(".g_grow", { opacity: 1, y: 0 });
     gsap.to(".g_text", { opacity: 1, y: 0 });
     gsap.to("#Features", {
-      ScrollTrigger: {
+      scrollTrigger: {
         trigger: "#Features",
         start: "top 75%",
         toggleActions: "play none none none",
@@ -31,9 +31,14 @@ const Features = () => {
           </h1>
         </div>
         <div className="flex flex-col justify-center items-center overflow-hidden">
-          <div className="mt-32 mb-24 pl-24">
-            <h2 className="text-5xl lg:text-6xl font-semibold"> {t("bs")}</h2>
-            <h2 id="neon" className="text-7xl lg:text-8xl  font-semibold">
+          <div className="mt-20 sm:mt-32 mb-16 sm:mb-24 w-full text-center sm:text-start sm:pl-24">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-semibold">
+              {t("bs")}
+            </h2>
+            <h2
+              id="neon"
+              className="text-6xl sm:text-7xl lg:text-8xl font-semibold"
+            >
               {" "}
               {t("tiu")}
             </h2>

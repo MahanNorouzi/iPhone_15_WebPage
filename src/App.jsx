@@ -1,14 +1,20 @@
+import { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import HomePage from "./components/HomePage";
-import Hero16 from "./components/Hero16";
-import OtherProductes from "./components/OtherProductes";
-import IPhonepage from "./components/Iphonepage";
-import { AppleID } from "./components/Appleid";
-import Pagenot from "./components/Pagenot";
+
+const HomePage = lazy(() => import("./components/HomePage"));
+const Hero16 = lazy(() => import("./components/Hero16"));
+const OtherProductes = lazy(() => import("./components/OtherProductes"));
+const IPhonepage = lazy(() => import("./components/Iphonepage"));
+const AppleID = lazy(() =>
+  import("./components/Appleid").then(({ AppleID: Component }) => ({
+    default: Component,
+  })),
+);
+const Pagenot = lazy(() => import("./components/Pagenot"));
 
 const App = () => {
   return (
-    <>
+    <Suspense fallback={null}>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/MacAirs" element={<OtherProductes />} />
@@ -18,7 +24,7 @@ const App = () => {
         <Route path="/Notfinished" element={<Pagenot />} />
         <Route path="*" element={<Pagenot />} />
       </Routes>
-    </>
+    </Suspense>
   );
 };
 

@@ -1,7 +1,8 @@
-import macair from "../../public/assets/videos/macair.mp4";
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+const macair = "/assets/videos/macair.mp4";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,7 +40,7 @@ const OtherProductes = () => {
       delay: 0.2,
       onComplete: () => {
         const video = document.querySelector("#macairvideo video");
-        video.play();
+        video?.play().catch(() => undefined);
       },
     });
 

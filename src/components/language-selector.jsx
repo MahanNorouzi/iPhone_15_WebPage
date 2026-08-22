@@ -14,15 +14,18 @@ const LanguageSelector = () => {
   };
 
   useEffect(() => {
-    document.body.dir = i18n.dir();
-  }, [i18n.language]);
+    const direction = i18n.dir();
+    document.documentElement.dir = direction;
+    document.documentElement.lang = i18n.language;
+    document.body.dir = direction;
+  }, [i18n, i18n.language]);
 
   return (
     <div className="btn-container">
       {languages.map((lng) => (
         <button
           id="lng_select"
-          className={lng.code === i18n.language ? "selected" : ""}
+          className={i18n.language.startsWith(lng.code) ? "selected" : ""}
           key={lng.code}
           onClick={() => changeLanguage(lng.code)}
         >

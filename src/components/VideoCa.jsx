@@ -15,7 +15,6 @@ const VideoCa = () => {
     isLastVideo: false,
     isPlaying: false,
   });
-  const [loadedData, setloadedData] = useState([]);
   const { isEnd, isLastVideo, startPlay, videoId, isPlaying } = video;
 
   useGSAP(() => {
@@ -23,16 +22,6 @@ const VideoCa = () => {
       transform: `translateX(${-100 * videoId}%)`,
       duration: 2,
       ease: "power2.inOut",
-
-      onUpdate: function () {
-        console.log(
-          "Animating... Transform:",
-          this.targets()[0].style.transform
-        );
-      },
-      onComplete: function () {
-        console.log("Animation completed for videoId:", videoId);
-      },
     });
 
     gsap.to("#video", {
@@ -47,24 +36,21 @@ const VideoCa = () => {
   }, [isEnd, videoId]);
 
   useEffect(() => {
-    if (loadedData.length > 3) {
-      if (!isPlaying) {
-        videoref.current[videoId].pause();
-      } else {
-        startPlay && videoref.current[videoId].play();
-      }
-    }
-  }, [startPlay, videoId, isPlaying, loadedData]);
+    const currentVideo = videoref.current[videoId];
+    if (!currentVideo) return;
 
-  const handleloadedmetadata = (i, e) => setloadedData((pre) => [...pre, e]);
+    if (!isPlaying) {
+      currentVideo.pause();
+    } else if (startPlay) {
+      currentVideo.play().catch(() => undefined);
+    }
+  }, [startPlay, videoId, isPlaying]);
 
   useEffect(() => {
     let currentprogres = 0;
     let span = videospanref.current;
 
-    // eslint-disable-next-line no-empty
-    if (span[videoId]) {
-    }
+    if (!span[videoId] || !videoref.current[videoId]) return undefined;
     let anim = gsap.to(span[videoId], {
       onUpdate: () => {
         const progress = Math.ceil(anim.progress() * 100);
@@ -75,8 +61,8 @@ const VideoCa = () => {
               window.innerWidth < 760
                 ? "10vw"
                 : window.innerWidth < 1200
-                ? "10vw"
-                : "4vw",
+                  ? "10vw"
+                  : "4vw",
           });
           gsap.to(span[videoId], {
             width: `${currentprogres}%`,
@@ -101,7 +87,7 @@ const VideoCa = () => {
     const animupdate = () => {
       anim.progress(
         videoref.current[videoId].currentTime /
-          hightlightsSlides[videoId].videoDuration
+          hightlightsSlides[videoId].videoDuration,
       );
     };
     if (isPlaying) {
@@ -109,6 +95,11 @@ const VideoCa = () => {
     } else {
       gsap.ticker.remove(animupdate);
     }
+
+    return () => {
+      gsap.ticker.remove(animupdate);
+      anim.kill();
+    };
   }, [videoId, startPlay, isPlaying]);
 
   const handleprocess = (type, i) => {
@@ -140,7 +131,7 @@ const VideoCa = () => {
 
   return (
     <>
-      <div className=" flex items-center dir-ltr" style={{ direction: "ltr" }}>
+      <div dir="ltr" className="flex items-center">
         {hightlightsSlides.map((list, i) => (
           <div key={list.id} id="slider" className=" sm:pr-20 pr-10">
             <div className="video-carousel_container">
@@ -152,7 +143,7 @@ const VideoCa = () => {
                   muted
                   className={`${
                     list.id === 2 && "translate-x-44"
-                  } poiner-events-none }`}
+                  } pointer-events-none`}
                   ref={(el) => (videoref.current[i] = el)}
                   onEnded={() => {
                     i !== 3
@@ -165,7 +156,6 @@ const VideoCa = () => {
                       isPlaying: true,
                     }));
                   }}
-                  onLoadedMetadata={(e) => handleloadedmetadata(i, e)}
                 >
                   {" "}
                   <source src={list.video} type="video/mp4" />
@@ -198,17 +188,21 @@ const VideoCa = () => {
             </span>
           ))}
         </div>
-        <button className=" control-btn">
-          <img
-            src={isLastVideo ? replayImg : !isPlaying ? playImg : pauseImg}
-            alt=""
-            onClick={
-              isLastVideo
-                ? () => handleprocess("video-reset")
-                : !isPlaying
+        <button
+          type="button"
+          className="control-btn"
+          aria-label={isLastVideo ? "Replay" : !isPlaying ? "Play" : "Pause"}
+          onClick={
+            isLastVideo
+              ? () => handleprocess("video-reset")
+              : !isPlaying
                 ? () => handleprocess("play")
                 : () => handleprocess("pause")
-            }
+          }
+        >
+          <img
+            src={isLastVideo ? replayImg : !isPlaying ? playImg : pauseImg}
+            alt={isLastVideo ? "Replay" : !isPlaying ? "Play" : "Pause"}
           />
         </button>
       </div>

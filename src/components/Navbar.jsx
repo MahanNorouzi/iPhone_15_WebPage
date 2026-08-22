@@ -1,17 +1,13 @@
 import { appleImg, bagImg } from "../utils/index";
 import { searchImg } from "../utils/index";
 import { Link } from "react-router-dom";
-import person from "../../public/assets/images/person.svg";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export const Navbar = () => {
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
   const { t } = useTranslation();
 
   return (
-    <header className="w-full py-5 sm:px-10 px-5 flex justify-between items-center">
+    <header className="flex items-center justify-between w-full px-5 py-5 sm:px-10">
       <nav className="flex w-full screen-max-width">
         <Link to="/">
           <img
@@ -22,8 +18,8 @@ export const Navbar = () => {
             height={18}
           />
         </Link>
-        <div className="flex flex-1 justify-center max-sm:hidden">
-          <ul className="flex flex-1 justify-center max-sm:hidden">
+        <div className="flex justify-center flex-1 max-sm:hidden">
+          <ul className="flex justify-center flex-1 max-sm:hidden">
             <li className="px-5 text-sm cursor-pointer text-gray hover:text-white">
               <Link to="/">{t("Store")}</Link>
             </li>
@@ -31,7 +27,7 @@ export const Navbar = () => {
               <Link to="/Notfinished">{t("Mac")}</Link>
             </li>
             <li className="px-5 text-sm cursor-pointer text-gray hover:text-white">
-              <Link to="/Notfinished">{t("iPhone")}</Link>
+              <Link to="/iPhone_15">{t("iPhone")}</Link>
             </li>
             <li className="px-5 text-sm cursor-pointer text-gray hover:text-white">
               <Link to="/AppleID">{t("AppleID")}</Link>

@@ -7,20 +7,21 @@ import { useTranslation } from "react-i18next";
 
 const Hero = () => {
   const { t } = useTranslation();
-  const [videoSrc, setVideoSrc] = useState(
-    window.innerWidth < 760 ? smallHeroVideo : heroVideo
+  const [videoSrc, setVideoSrc] = useState(() =>
+    window.matchMedia("(max-width: 759px)").matches
+      ? smallHeroVideo
+      : heroVideo,
   );
-  const handlevideosourceset = () => {
-    if (window.innerWidth < 760) {
-      setVideoSrc(smallHeroVideo);
-    } else {
-      setVideoSrc(heroVideo);
-    }
-  };
+
   useEffect(() => {
-    window.addEventListener("resize", handlevideosourceset);
+    const mediaQuery = window.matchMedia("(max-width: 759px)");
+    const handleMediaChange = (event) => {
+      setVideoSrc(event.matches ? smallHeroVideo : heroVideo);
+    };
+
+    mediaQuery.addEventListener("change", handleMediaChange);
     return () => {
-      window.removeEventListener("resize", handlevideosourceset);
+      mediaQuery.removeEventListener("change", handleMediaChange);
     };
   }, []);
   useGSAP(() => {
@@ -51,7 +52,7 @@ const Hero = () => {
         id="cta"
         className=" flex flex-col items-center opacity-0 translate-y-20"
       >
-        <Link className="btn" to="iPhone_15">
+        <Link className="btn" to="/iPhone_15">
           {t("buy")}
         </Link>
 

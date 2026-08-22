@@ -1,26 +1,28 @@
 import { useGSAP } from "@gsap/react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import hero162 from "../../public/assets/videos/hero162.mp4";
-import hero16small from "../../public/assets/videos/hero16small.mp4";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+
+const hero162 = "/assets/videos/hero162.mp4";
+const hero16small = "/assets/videos/hero16small.mp4";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Hero16 = () => {
-  const [videoSrc, setVideoSrc] = useState(
-    window.innerWidth < 760 ? hero16small : hero162
+  const [videoSrc, setVideoSrc] = useState(() =>
+    window.matchMedia("(max-width: 759px)").matches ? hero16small : hero162,
   );
 
-  const handleVideoSourceSet = () => {
-    setVideoSrc(window.innerWidth < 760 ? hero16small : hero162);
-  };
-
   useEffect(() => {
-    window.addEventListener("resize", handleVideoSourceSet);
+    const mediaQuery = window.matchMedia("(max-width: 759px)");
+    const handleMediaChange = (event) => {
+      setVideoSrc(event.matches ? hero16small : hero162);
+    };
+
+    mediaQuery.addEventListener("change", handleMediaChange);
     return () => {
-      window.removeEventListener("resize", handleVideoSourceSet);
+      mediaQuery.removeEventListener("change", handleMediaChange);
     };
   }, []);
 
@@ -89,7 +91,7 @@ const Hero16 = () => {
           id="cta1"
           className="flex flex-col items-center opacity-0 translate-y-20"
         >
-          <Link className="btn" to="iPhone_15">
+          <Link className="btn" to="/iPhone_15">
             Buy
           </Link>
           <p className="font-normal text-xl"> from $199/month or $999</p>

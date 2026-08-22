@@ -1,6 +1,5 @@
-/* eslint-disable react/no-unknown-property */
 import * as THREE from "three";
-import React, { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useGLTF, useTexture } from "@react-three/drei";
 
 function Model(props) {

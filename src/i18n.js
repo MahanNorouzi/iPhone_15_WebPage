@@ -1,13 +1,13 @@
-import i18n, { reloadResources } from "i18next";
+import i18n from "i18next";
 import languagedetector from "i18next-browser-languagedetector";
-import { initReactI18next, Translation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 
 i18n
   .use(languagedetector)
   .use(initReactI18next)
   .init({
-    debug: true,
-    fallbacklng: "en",
+    debug: import.meta.env.DEV,
+    fallbackLng: "en",
     resources: {
       en: {
         translation: {
